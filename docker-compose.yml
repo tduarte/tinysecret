@@ -1,0 +1,22 @@
+# TrueNAS 25.10: Apps > Discover Apps > ⋮ > Install via YAML, paste this.
+# LAN only. Do not port-forward 8790 or put it behind a public reverse proxy.
+services:
+  secret-drop:
+    image: ghcr.io/tduarte/secret-drop:latest
+    container_name: secret-drop
+    restart: unless-stopped
+    user: "568:568"            # keep equal to PUID:PGID
+    ports:
+      - "8790:8790"
+    environment:
+      UI_PASSWORD: "change-me-to-a-long-passphrase"
+      MCP_TOKEN: "paste-output-of-openssl-rand-hex-32"
+      PUID: "568"
+      PGID: "568"
+      PUBLIC_URL: "http://truenas.local:8790"   # optional: shown to your assistant in request_secret replies
+    volumes:
+      - /mnt/SSDs/Applications/secrets:/secrets
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true

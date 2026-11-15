@@ -1,0 +1,4 @@
+# Runtime dependencies (pinned; Dependabot keeps them current).
+# The MCP SDK already brings Starlette, Uvicorn and python-multipart.
+mcp==2.3.0
+uvicorn==0.54.0
