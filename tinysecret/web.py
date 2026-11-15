@@ -15,7 +15,7 @@ from starlette.staticfiles import StaticFiles
 from .auth import LoginLimiter, Session, SessionStore, constant_time_equals
 from .store import MAX_NOTE, Entry, InvalidName, InvalidValue, SecretStore, validate_name
 
-COOKIE = "sd_session"
+COOKIE = "tinysecret_session"
 STATIC_VERSION = "1"
 
 MESSAGES = {
@@ -55,15 +55,15 @@ def page(title: str, body: str, *, status: int = 200, logged_in: bool = True, cs
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="secret-drop">
+<meta name="apple-mobile-web-app-title" content="tinysecret">
 <meta name="referrer" content="same-origin">
-<title>{esc(title)} · secret-drop</title>
+<title>{esc(title)} · tinysecret</title>
 <link rel="stylesheet" href="/static/style.css?v={STATIC_VERSION}">
 <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/static/icon.png">
 </head>
 <body>
-<header><a href="/" class="brand">secret-drop</a>{logout}</header>
+<header><a href="/" class="brand">tinysecret</a>{logout}</header>
 <main>
 {body}
 </main>

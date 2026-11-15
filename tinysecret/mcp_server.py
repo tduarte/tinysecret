@@ -12,12 +12,12 @@ from pydantic import BaseModel
 from .store import Entry, InvalidName, SecretStore, validate_name
 
 INSTRUCTIONS = """\
-secret-drop holds secrets (API keys, passwords) as files that other containers mount.
+tinysecret holds secrets (API keys, passwords) as files that other containers mount.
 You can never read or write a secret's value, and you must never ask the user to paste a
 secret into the chat. Instead:
 1. call request_secret with an UPPER_SNAKE_CASE name, a short note saying what it is for,
    and requested_by (the app or project that needs it);
-2. tell the user to open the secret-drop page on their phone and fill it in;
+2. tell the user to open the tinysecret page on their phone and fill it in;
 3. call check_secret (or list_secrets) to confirm it is "set" before continuing.
 Containers read a secret from the file /secrets/<NAME> (mount the folder read-only).
 """
@@ -56,9 +56,9 @@ def _info(e: Entry) -> SecretInfo:
 
 
 def build_mcp(store: SecretStore, public_url: str = "") -> MCPServer:
-    mcp = MCPServer(name="secret-drop", instructions=INSTRUCTIONS)
+    mcp = MCPServer(name="tinysecret", instructions=INSTRUCTIONS)
     where = f"Ask the user to open {public_url} and fill it in." if public_url \
-        else "Ask the user to open the secret-drop page and fill it in."
+        else "Ask the user to open the tinysecret page and fill it in."
 
     @mcp.tool(annotations=ToolAnnotations(readOnlyHint=True, idempotentHint=True))
     def list_secrets() -> SecretList:
@@ -77,7 +77,7 @@ def build_mcp(store: SecretStore, public_url: str = "") -> MCPServer:
     @mcp.tool(annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=True))
     def request_secret(name: str, note: str = "", requested_by: str = "") -> RequestResult:
         """Ask the user for a secret. Creates a "waiting" entry shown at the top of the
-        secret-drop page. Never overwrites a value that is already set.
+        tinysecret page. Never overwrites a value that is already set.
 
         name: UPPER_SNAKE_CASE, letters/digits/underscores only (e.g. NORDVPN_USER).
         note: what it is and where the user can find it (e.g. "NordVPN service username, Nord dashboard > Manual setup").

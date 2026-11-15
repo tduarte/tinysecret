@@ -4,8 +4,8 @@ import stat
 
 import pytest
 
-from secret_drop import store as store_mod
-from secret_drop.store import InvalidValue, SecretStore
+from tinysecret import store as store_mod
+from tinysecret.store import InvalidValue, SecretStore
 
 
 @pytest.fixture

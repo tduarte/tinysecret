@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY secret_drop ./secret_drop
+COPY tinysecret ./tinysecret
 
 # 568 is the TrueNAS "apps" user. Override with `user:` in compose.
 RUN mkdir -p /secrets && chown 568:568 /secrets
@@ -22,9 +22,9 @@ VOLUME ["/secrets"]
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
   CMD ["python", "-c", "import os,urllib.request;urllib.request.urlopen('http://127.0.0.1:%s/healthz' % os.environ.get('PORT','8790'), timeout=2)"]
 
-LABEL org.opencontainers.image.title="secret-drop" \
+LABEL org.opencontainers.image.title="tinysecret" \
       org.opencontainers.image.description="Tiny self-hosted secret drop box with a phone UI and an MCP server that never reveals values" \
       org.opencontainers.image.source="https://github.com/tduarte/tinysecret" \
       org.opencontainers.image.licenses="MIT"
 
-CMD ["python", "-m", "secret_drop"]
+CMD ["python", "-m", "tinysecret"]

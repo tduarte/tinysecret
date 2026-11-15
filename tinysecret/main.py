@@ -16,7 +16,7 @@ from .mcp_server import build_mcp
 from .store import SecretStore
 from .web import WebUI
 
-log = logging.getLogger("secret_drop")
+log = logging.getLogger("tinysecret")
 STATIC_DIR = str(Path(__file__).parent / "static")
 
 SECURITY_HEADERS = [
@@ -30,7 +30,7 @@ SECURITY_HEADERS = [
 ]
 
 
-class SecretDropApp:
+class TinySecretApp:
     """Routes /mcp to the MCP app (behind a Bearer token) and everything else to the web UI."""
 
     def __init__(self, web: ASGIApp, mcp_app: ASGIApp, mcp_token: str):
@@ -56,7 +56,7 @@ class SecretDropApp:
         if path == "/mcp" or path.startswith("/mcp/"):
             if not self._bearer_ok(scope):
                 resp = JSONResponse({"error": "unauthorized"}, status_code=401,
-                                    headers={"WWW-Authenticate": 'Bearer realm="secret-drop"'})
+                                    headers={"WWW-Authenticate": 'Bearer realm="tinysecret"'})
                 await resp(scope, receive, send_with_headers)
                 return
             scope = dict(scope, path="/mcp", raw_path=b"/mcp")
@@ -75,7 +75,7 @@ class SecretDropApp:
 
 def create_app(*, secrets_dir: str, ui_password: str, mcp_token: str,
                puid: int | None = None, pgid: int | None = None,
-               public_url: str = "", cookie_secure: bool = False) -> SecretDropApp:
+               public_url: str = "", cookie_secure: bool = False) -> TinySecretApp:
     if not ui_password:
         raise ValueError("UI_PASSWORD is required.")
     if len(mcp_token) < 16:
@@ -88,7 +88,7 @@ def create_app(*, secrets_dir: str, ui_password: str, mcp_token: str,
     # DNS-rebinding checks are off because every /mcp request needs the Bearer token anyway.
     mcp_app = mcp.streamable_http_app(streamable_http_path="/mcp", stateless_http=True,
                                       json_response=True, host="0.0.0.0")
-    app = SecretDropApp(web_app, mcp_app, mcp_token)
+    app = TinySecretApp(web_app, mcp_app, mcp_token)
     app.store = store  # handy for tests
     app.web_ui = web
     return app
@@ -99,7 +99,7 @@ def _int_env(name: str) -> int | None:
     return int(v) if v else None
 
 
-def app_from_env() -> SecretDropApp:
+def app_from_env() -> TinySecretApp:
     logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"),
                         format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     try:

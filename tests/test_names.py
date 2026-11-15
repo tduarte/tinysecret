@@ -1,6 +1,6 @@
 import pytest
 
-from secret_drop.store import InvalidName, SecretStore, validate_name
+from tinysecret.store import InvalidName, SecretStore, validate_name
 
 
 @pytest.mark.parametrize("name", ["A", "NORDVPN_USER", "API_KEY_2", "_X", "9LIVES", "A" * 128])

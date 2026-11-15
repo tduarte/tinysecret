@@ -1,5 +1,5 @@
-# Example: Gluetun reads NordVPN credentials from secret-drop's folder.
-# Fill NORDVPN_USER and NORDVPN_PASSWORD in the secret-drop UI first.
+# Example: Gluetun reads NordVPN credentials from tinysecret's folder.
+# Fill NORDVPN_USER and NORDVPN_PASSWORD in the tinysecret UI first.
 services:
   gluetun:
     image: qmcgaw/gluetun:latest

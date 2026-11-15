@@ -1,4 +1,4 @@
-# secret-drop
+# tinysecret
 
 A tiny self-hosted drop box for secrets.
 
@@ -61,7 +61,7 @@ Endpoint: `http://<truenas-ip>:8790/mcp` (streamable HTTP), header `Authorizatio
 
 **Claude Code**
 ```sh
-claude mcp add --transport http secret-drop http://<truenas-ip>:8790/mcp \
+claude mcp add --transport http tinysecret http://<truenas-ip>:8790/mcp \
   --header "Authorization: Bearer <MCP_TOKEN>"
 ```
 
@@ -105,7 +105,7 @@ An app that runs as a non-root user needs to be in group 568 (e.g. `group_add: [
 ```sh
 pip install -r requirements-dev.txt
 python -m pytest -q
-UI_PASSWORD=dev MCP_TOKEN=devdevdevdevdevdev SECRETS_DIR=./secrets python -m secret_drop
+UI_PASSWORD=dev MCP_TOKEN=devdevdevdevdevdev SECRETS_DIR=./secrets python -m tinysecret
 ```
 
-Images are built for amd64 and arm64 and published to `ghcr.io/tduarte/secret-drop` by GitHub Actions on every push to `main` and on `v*` tags.
+Images are built for amd64 and arm64 and published to `ghcr.io/tduarte/tinysecret` by GitHub Actions on every push to `main` and on `v*` tags.

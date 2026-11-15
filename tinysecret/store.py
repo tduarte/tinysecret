@@ -17,7 +17,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-log = logging.getLogger("secret_drop.store")
+log = logging.getLogger("tinysecret.store")
 
 NAME_RE = re.compile(r"[A-Z0-9_]{1,128}")
 META_FILE = ".meta.json"

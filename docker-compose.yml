@@ -1,9 +1,9 @@
 # TrueNAS 25.10: Apps > Discover Apps > ⋮ > Install via YAML, paste this.
 # LAN only. Do not port-forward 8790 or put it behind a public reverse proxy.
 services:
-  secret-drop:
-    image: ghcr.io/tduarte/secret-drop:latest
-    container_name: secret-drop
+  tinysecret:
+    image: ghcr.io/tduarte/tinysecret:latest
+    container_name: tinysecret
     restart: unless-stopped
     user: "568:568"            # keep equal to PUID:PGID
     ports:

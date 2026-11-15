@@ -97,7 +97,7 @@ def test_ui_requires_login(client):
 
 
 def test_login_rate_limit(client, monkeypatch):
-    import secret_drop.web as web
+    import tinysecret.web as web
 
     async def no_sleep(_):
         pass

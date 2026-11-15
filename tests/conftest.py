@@ -3,7 +3,7 @@ import re
 import pytest
 from starlette.testclient import TestClient
 
-from secret_drop.main import create_app
+from tinysecret.main import create_app
 
 PASSWORD = "correct horse battery"
 TOKEN = "t" * 32
